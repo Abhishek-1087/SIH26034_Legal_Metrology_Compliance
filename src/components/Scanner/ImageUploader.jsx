@@ -34,8 +34,8 @@ export default function ImageUploader({ onImageSelected, onOpenCamera, onOpenEco
         onClick={() => fileInputRef.current?.click()}
         className={`relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 ${
           isDragOver
-            ? 'border-cyan-400 bg-cyan-950/30 scale-[1.01]'
-            : 'border-slate-800 hover:border-indigo-500/50 bg-slate-900/40 hover:bg-slate-900/80'
+            ? 'border-cyan-400 bg-cyan-500/10 scale-[1.01]'
+            : 'border-slate-700 hover:border-indigo-500/50 bg-slate-800/20 hover:bg-slate-800/40'
         }`}
       >
         {/* Animated Laser Scanning Line during scanning */}
@@ -63,9 +63,9 @@ export default function ImageUploader({ onImageSelected, onOpenCamera, onOpenEco
           </p>
 
           {isScanning ? (
-            <div className="w-full max-w-md bg-slate-950/90 p-4 rounded-2xl border border-indigo-500/40 shadow-xl backdrop-blur-md">
+            <div className="w-full max-w-md bg-slate-900 p-4 rounded-2xl border border-indigo-500/40 shadow-xl backdrop-blur-md">
               <div className="flex items-center justify-between text-xs mb-2.5">
-                <span className="text-cyan-300 font-semibold flex items-center gap-2">
+                <span className="text-cyan-400 font-semibold flex items-center gap-2">
                   <RefreshCw className="w-4 h-4 animate-spin text-cyan-400" />
                   {scanProgress?.status || "Analyzing Packaging Label & OCR..."}
                 </span>
@@ -85,7 +85,7 @@ export default function ImageUploader({ onImageSelected, onOpenCamera, onOpenEco
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onOpenCamera(); }}
-                className="btn btn-secondary text-xs py-2.5 px-4 flex items-center gap-2 border-slate-700 hover:border-cyan-500/50 hover:text-cyan-300 shadow-sm"
+                className="btn btn-secondary text-xs py-2.5 px-4 flex items-center gap-2 border-slate-700 hover:border-cyan-500/50 hover:text-cyan-400 shadow-sm"
               >
                 <Camera className="w-4 h-4 text-cyan-400" />
                 Live Camera Scan
@@ -94,7 +94,7 @@ export default function ImageUploader({ onImageSelected, onOpenCamera, onOpenEco
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onOpenEcom(); }}
-                className="btn btn-secondary text-xs py-2.5 px-4 flex items-center gap-2 border-slate-700 hover:border-indigo-500/50 hover:text-indigo-300 shadow-sm"
+                className="btn btn-secondary text-xs py-2.5 px-4 flex items-center gap-2 border-slate-700 hover:border-indigo-500/50 hover:text-indigo-400 shadow-sm"
               >
                 <Link className="w-4 h-4 text-indigo-400" />
                 E-Commerce Product Link

@@ -32,8 +32,8 @@ export default function SampleSelector({ selectedSampleId, onSelectSample }) {
               onClick={() => setFilterCategory(cat)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                 filterCategory === cat
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                  : 'bg-slate-900/60 text-slate-400 hover:bg-slate-800 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm font-bold'
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
               }`}
             >
               {cat === 'ALL' ? 'All Samples' : cat}
@@ -54,8 +54,8 @@ export default function SampleSelector({ selectedSampleId, onSelectSample }) {
               onClick={() => onSelectSample(sample)}
               className={`group cursor-pointer rounded-2xl p-3.5 border transition-all duration-300 flex flex-col justify-between relative overflow-hidden ${
                 isSelected
-                  ? 'bg-slate-900/90 border-cyan-400/80 shadow-xl shadow-cyan-500/10 ring-2 ring-cyan-500/50'
-                  : 'bg-slate-900/50 border-slate-800 hover:border-slate-700 hover:bg-slate-900/80'
+                  ? 'bg-indigo-950/30 border-cyan-400 shadow-xl shadow-cyan-500/10 ring-2 ring-cyan-500/40'
+                  : 'bg-slate-900 border-slate-800 hover:border-slate-700 hover:shadow-lg'
               }`}
             >
               <div>
@@ -65,7 +65,7 @@ export default function SampleSelector({ selectedSampleId, onSelectSample }) {
                     alt={sample.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60"></div>
                   
                   <div className="absolute top-2 right-2">
                     {isCompliant ? (
@@ -80,10 +80,10 @@ export default function SampleSelector({ selectedSampleId, onSelectSample }) {
                   </div>
                 </div>
 
-                <h4 className="font-bold text-sm text-white line-clamp-1 group-hover:text-cyan-300 transition-colors">
+                <h4 className="font-bold text-sm text-white line-clamp-1 group-hover:text-cyan-400 transition-colors">
                   {sample.name}
                 </h4>
-                <p className="text-xs text-slate-400 mb-3">{sample.brand} • <span className="font-mono text-slate-500">{sample.category}</span></p>
+                <p className="text-xs text-slate-400 mb-3">{sample.brand} • <span className="font-mono text-slate-400">{sample.category}</span></p>
               </div>
 
               <div className="flex items-center justify-between text-xs pt-2.5 border-t border-slate-800/80">
