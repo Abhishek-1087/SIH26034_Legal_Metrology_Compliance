@@ -14,11 +14,12 @@ import RulebookExplorer from './components/Rulebook/RulebookExplorer';
 
 import { BENCHMARK_SAMPLES } from './engine/sampleData';
 import { performPackagingOcr } from './engine/ocrProcessor';
+import { ShieldCheck, Sparkles, Scale, AlertTriangle, Layers, BookOpen } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('scanner');
   
-  // Active product inspection state (default to first sample for instant demo display)
+  // Active product inspection state (default to first sample)
   const [activeProduct, setActiveProduct] = useState(BENCHMARK_SAMPLES[0]);
   const [selectedSampleId, setSelectedSampleId] = useState(BENCHMARK_SAMPLES[0].id);
   const [activeBoxId, setActiveBoxId] = useState(null);
@@ -36,10 +37,10 @@ export default function App() {
     setActiveBoxId(null);
   };
 
-  // Handle custom image scan (File, Camera, or URL)
+  // Handle custom image scan
   const handleProcessCustomImage = async (imageSource, name = "Custom Package Scan") => {
     setIsScanning(true);
-    setScanProgress({ status: "Loading Image Canvas...", progress: 0.1 });
+    setScanProgress({ status: "Loading Canvas & Image Preprocessor...", progress: 0.15 });
 
     try {
       const result = await performPackagingOcr(imageSource, (prog) => {
@@ -49,8 +50,8 @@ export default function App() {
       const newProduct = {
         id: `custom-scan-${Date.now()}`,
         name: name,
-        category: "Scanned Commodity",
-        brand: "Packaged Commodity Label",
+        category: "Scanned Packaged Commodity",
+        brand: "Custom Label Input",
         imageUrl: typeof imageSource === "string" ? imageSource : URL.createObjectURL(imageSource),
         status: result.analysis.status,
         score: result.analysis.score,
@@ -81,8 +82,51 @@ export default function App() {
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Body Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
         
+        {/* Top Metric Bar */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="glass-card p-3.5 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Rule Coverage</span>
+              <span className="text-sm font-extrabold text-white font-mono">100% Rules 2011</span>
+            </div>
+            <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
+              <Scale className="w-4 h-4" />
+            </div>
+          </div>
+
+          <div className="glass-card p-3.5 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">OCR Spatial Engine</span>
+              <span className="text-sm font-extrabold text-cyan-400 font-mono">Tesseract Vision</span>
+            </div>
+            <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400">
+              <Sparkles className="w-4 h-4" />
+            </div>
+          </div>
+
+          <div className="glass-card p-3.5 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Penalty Calculator</span>
+              <span className="text-sm font-extrabold text-amber-400 font-mono">Sec 36 Enforced</span>
+            </div>
+            <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400">
+              <AlertTriangle className="w-4 h-4" />
+            </div>
+          </div>
+
+          <div className="glass-card p-3.5 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Ministry Standard</span>
+              <span className="text-sm font-extrabold text-emerald-400 font-mono">Dept of Consumer Affairs</span>
+            </div>
+            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+              <ShieldCheck className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+
         {activeTab === 'scanner' && (
           <div className="space-y-6">
             
@@ -157,7 +201,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <p>SIH26034 • Ministry of Consumer Affairs, Food & Public Distribution • Packaged Commodities Rules, 2011 Compliance System</p>
+        <p>SIH26034 • Ministry of Consumer Affairs, Food & Public Distribution • Packaged Commodities Rules, 2011 Compliance Portal</p>
       </footer>
 
     </div>
