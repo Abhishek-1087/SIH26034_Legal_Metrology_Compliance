@@ -13,7 +13,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -27,13 +27,13 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
         setError('Please enter your full name.');
         return;
       }
-      const res = registerUser(fullName, email, password, role);
+      const res = await registerUser(fullName, email, password, role);
       if (res.success) {
         onAuthSuccess(res.user);
         onClose();
       }
     } else {
-      const res = loginUser(email, password, role);
+      const res = await loginUser(email, password, role);
       if (res.success) {
         onAuthSuccess(res.user);
         onClose();
@@ -41,12 +41,12 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
     }
   };
 
-  const handleQuickLogin = (demoRole) => {
+  const handleQuickLogin = async (demoRole) => {
     if (demoRole === 'Official') {
-      const res = loginUser("inspector@metrology.gov.in", "admin123", "Official");
+      const res = await loginUser("inspector@metrology.gov.in", "admin123", "Official");
       onAuthSuccess(res.user);
     } else {
-      const res = loginUser("consumer@gmail.com", "user123", "Consumer");
+      const res = await loginUser("consumer@gmail.com", "user123", "Consumer");
       onAuthSuccess(res.user);
     }
     onClose();

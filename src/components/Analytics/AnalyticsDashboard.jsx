@@ -122,7 +122,7 @@ export default function AnalyticsDashboard() {
               max="2000"
               step="10"
               value={unitCount}
-              onChange={(e) => setSearchTerm ? setUnitCount(Number(e.target.value)) : null}
+              onChange={(e) => setUnitCount(Number(e.target.value))}
               className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
             />
             <span className="text-[10px] text-slate-500">Adjust slider to simulate market seizure quantity</span>

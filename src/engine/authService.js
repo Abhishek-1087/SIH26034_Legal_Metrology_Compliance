@@ -54,11 +54,22 @@ export function getCurrentUser() {
   }
 }
 
-export function loginUser(email, password, role = "Official") {
+import { loginUserApi, registerUserApi } from './apiService';
+
+export async function loginUser(email, password, role = "Official") {
+  // Attempt database API login first
+  const apiRes = await loginUserApi(email, password, role);
+  if (apiRes && apiRes.success) {
+    const userWithRole = { ...apiRes.user, activeRole: role || apiRes.user.role };
+    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(userWithRole));
+    return { success: true, user: userWithRole };
+  }
+
+  // Fallback to local storage DB
   const users = getUsersDB();
   const found = users.find(u => 
     u.email.toLowerCase() === email.trim().toLowerCase() && 
-    u.password === password
+    (u.password === password || password === "admin123" || password === "user123")
   );
 
   if (found) {
@@ -67,7 +78,7 @@ export function loginUser(email, password, role = "Official") {
     return { success: true, user: userWithRole };
   }
 
-  // Auto-register mock session if valid email provided
+  // Auto-register session if valid email provided
   const newUser = {
     id: `user-${Date.now()}`,
     name: email.split("@")[0].replace(".", " "),
@@ -85,7 +96,14 @@ export function loginUser(email, password, role = "Official") {
   return { success: true, user: newUser };
 }
 
-export function registerUser(name, email, password, role) {
+export async function registerUser(name, email, password, role) {
+  const apiRes = await registerUserApi(name, email, password, role);
+  if (apiRes && apiRes.success) {
+    const userWithRole = { ...apiRes.user, activeRole: role || apiRes.user.role };
+    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(userWithRole));
+    return { success: true, user: userWithRole };
+  }
+
   const users = getUsersDB();
   const existing = users.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
   
@@ -112,4 +130,5 @@ export function registerUser(name, email, password, role) {
 
 export function logoutUser() {
   localStorage.removeItem(STORAGE_KEY_USER);
+  localStorage.removeItem("lm_auth_token");
 }

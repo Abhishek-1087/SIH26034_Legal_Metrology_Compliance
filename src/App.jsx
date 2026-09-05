@@ -16,6 +16,7 @@ import AuthModal from './components/Auth/AuthModal';
 import { BENCHMARK_SAMPLES } from './engine/sampleData';
 import { performPackagingOcr } from './engine/ocrProcessor';
 import { getCurrentUser, logoutUser } from './engine/authService';
+import { saveScanRecord } from './engine/apiService';
 import { ShieldCheck, Sparkles, Scale, AlertTriangle, UserCheck, Moon, Sun } from 'lucide-react';
 
 export default function App() {
@@ -88,6 +89,9 @@ export default function App() {
         boundingBoxes: result.boundingBoxes,
         penaltyEstimate: result.analysis.penaltyEstimate
       };
+
+      // Persist to backend database API
+      await saveScanRecord(newProduct);
 
       setSelectedSampleId(null);
       setActiveProduct(newProduct);

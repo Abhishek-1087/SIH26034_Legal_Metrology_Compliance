@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layers, Upload, Download, CheckCircle2, AlertOctagon, Search, Filter, FileText, ArrowUpDown, Eye } from 'lucide-react';
 import { BENCHMARK_SAMPLES } from '../../engine/sampleData';
 import { analyzeLegalMetrologyCompliance } from '../../engine/metrologyRulesEngine';
+import { fetchScanLogs, saveBatchScans } from '../../engine/apiService';
 
 export default function BatchAuditor() {
   const [batchItems, setBatchItems] = useState(BENCHMARK_SAMPLES);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [selectedBatchItem, setSelectedBatchItem] = useState(null);
+  const [isLoadingDb, setIsLoadingDb] = useState(false);
 
-  const handleFileUpload = (e) => {
+  useEffect(() => {
+    async function loadDbScans() {
+      setIsLoadingDb(true);
+      const dbScans = await fetchScanLogs();
+      if (dbScans && dbScans.length > 0) {
+        setBatchItems(dbScans);
+      }
+      setIsLoadingDb(false);
+    }
+    loadDbScans();
+  }, []);
+
+  const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
@@ -32,7 +46,8 @@ export default function BatchAuditor() {
       };
     });
 
-    setBatchItems(prev => [...newItems, ...prev]);
+    const saved = await saveBatchScans(newItems);
+    setBatchItems(prev => [...saved, ...prev]);
   };
 
   const filteredItems = batchItems.filter(item => {
