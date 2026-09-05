@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import SampleSelector from './components/Scanner/SampleSelector';
 import ImageUploader from './components/Scanner/ImageUploader';
@@ -11,15 +11,26 @@ import ViolationList from './components/Inspection/ViolationList';
 import BatchAuditor from './components/Batch/BatchAuditor';
 import AnalyticsDashboard from './components/Analytics/AnalyticsDashboard';
 import RulebookExplorer from './components/Rulebook/RulebookExplorer';
+import AuthModal from './components/Auth/AuthModal';
 
 import { BENCHMARK_SAMPLES } from './engine/sampleData';
 import { performPackagingOcr } from './engine/ocrProcessor';
-import { ShieldCheck, Sparkles, Scale, AlertTriangle, Layers, BookOpen } from 'lucide-react';
+import { getCurrentUser, logoutUser } from './engine/authService';
+import { ShieldCheck, Sparkles, Scale, AlertTriangle, UserCheck, Moon, Sun } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('scanner');
   
-  // Active product inspection state (default to first sample)
+  // Theme State (Day / Night Mode)
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('lm_theme') || 'dark';
+  });
+
+  // User Auth State (Persisted in localStorage)
+  const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+  // Active product inspection state
   const [activeProduct, setActiveProduct] = useState(BENCHMARK_SAMPLES[0]);
   const [selectedSampleId, setSelectedSampleId] = useState(BENCHMARK_SAMPLES[0].id);
   const [activeBoxId, setActiveBoxId] = useState(null);
@@ -30,14 +41,27 @@ export default function App() {
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(null);
 
-  // Handle sample selection
+  // Sync theme attribute to HTML document root
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('lm_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const handleLogout = () => {
+    logoutUser();
+    setCurrentUser(null);
+  };
+
   const handleSelectSample = (sample) => {
     setSelectedSampleId(sample.id);
     setActiveProduct(sample);
     setActiveBoxId(null);
   };
 
-  // Handle custom image scan
   const handleProcessCustomImage = async (imageSource, name = "Custom Package Scan") => {
     setIsScanning(true);
     setScanProgress({ status: "Loading Canvas & Image Preprocessor...", progress: 0.15 });
@@ -76,20 +100,31 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans">
+    <div className="min-h-screen flex flex-col transition-colors duration-300">
       
       {/* Navigation Header */}
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        currentUser={currentUser}
+        onOpenAuth={() => setIsAuthOpen(true)}
+        onLogout={handleLogout}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
 
       {/* Main Body Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
         
-        {/* Top Metric Bar */}
+        {/* Top Metric & User Status Banner */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div className="glass-card p-3.5 flex items-center justify-between">
             <div>
-              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Rule Coverage</span>
-              <span className="text-sm font-extrabold text-white font-mono">100% Rules 2011</span>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Logged In Role</span>
+              <span className="text-xs font-extrabold text-cyan-400 font-mono flex items-center gap-1 mt-0.5">
+                <UserCheck className="w-3.5 h-3.5" />
+                {currentUser ? (currentUser.role === 'Official' ? 'Official Inspector' : 'Public Consumer') : 'Guest Auditor'}
+              </span>
             </div>
             <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
               <Scale className="w-4 h-4" />
@@ -98,20 +133,22 @@ export default function App() {
 
           <div className="glass-card p-3.5 flex items-center justify-between">
             <div>
-              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">OCR Spatial Engine</span>
-              <span className="text-sm font-extrabold text-cyan-400 font-mono">Tesseract Vision</span>
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Active Mode</span>
+              <span className="text-xs font-extrabold text-amber-400 font-mono capitalize">
+                {theme === 'dark' ? 'Night Mode 🌙' : 'Day Mode ☀️'}
+              </span>
             </div>
-            <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400">
-              <Sparkles className="w-4 h-4" />
+            <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400">
+              {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             </div>
           </div>
 
           <div className="glass-card p-3.5 flex items-center justify-between">
             <div>
               <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Penalty Calculator</span>
-              <span className="text-sm font-extrabold text-amber-400 font-mono">Sec 36 Enforced</span>
+              <span className="text-xs font-extrabold text-rose-400 font-mono">Sec 36 Enforced</span>
             </div>
-            <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400">
+            <div className="p-2 rounded-lg bg-rose-500/10 text-rose-400">
               <AlertTriangle className="w-4 h-4" />
             </div>
           </div>
@@ -119,7 +156,7 @@ export default function App() {
           <div className="glass-card p-3.5 flex items-center justify-between">
             <div>
               <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Ministry Standard</span>
-              <span className="text-sm font-extrabold text-emerald-400 font-mono">Dept of Consumer Affairs</span>
+              <span className="text-xs font-extrabold text-emerald-400 font-mono">Dept of Consumer Affairs</span>
             </div>
             <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
               <ShieldCheck className="w-4 h-4" />
@@ -187,6 +224,12 @@ export default function App() {
       </main>
 
       {/* Modals */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onAuthSuccess={(user) => setCurrentUser(user)}
+      />
+
       <CameraScanner
         isOpen={isCameraOpen}
         onClose={() => setIsCameraOpen(false)}
@@ -201,7 +244,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <p>SIH26034 • Ministry of Consumer Affairs, Food & Public Distribution • Packaged Commodities Rules, 2011 Compliance Portal</p>
+        <p>SIH26034 • Ministry of Consumer Affairs, Food & Public Distribution • Packaged Commodities Rules, 2011 Compliance System</p>
       </footer>
 
     </div>
