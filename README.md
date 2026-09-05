@@ -4,6 +4,7 @@
 [![Ministry](https://img.shields.io/badge/Ministry-Consumer_Affairs,_Food_&_Public_Distribution-emerald.svg?style=for-the-badge)](https://consumeraffairs.nic.in)
 [![React](https://img.shields.io/badge/React-18.3-blue.svg?style=for-the-badge&logo=react)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-5.4-purple.svg?style=for-the-badge&logo=vite)](https://vitejs.dev)
+[![Express](https://img.shields.io/badge/Express-5.2-black.svg?style=for-the-badge&logo=express)](https://expressjs.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
 > **Software System to check compliance of Packaged Commodities under Legal Metrology (Packaged Commodities) Rules, 2011 by scanning products, images and labels.**  
@@ -16,23 +17,28 @@
 * **Problem Statement ID:** SIH26034
 * **Ministry / Department:** Ministry of Consumer Affairs, Food & Public Distribution • Department of Consumer Affairs (Legal Metrology Division)
 * **Objective:** Under the **Legal Metrology (Packaged Commodities) Rules, 2011**, all pre-packaged commodities manufactured, packed, or imported in India must bear specific mandatory declarations on their label (e.g., Manufacturer name & address, Net Quantity in metric units, Month & Year of packing, Maximum Retail Price inclusive of all taxes, Consumer Care details, Country of Origin). 
-* **Solution:** **LM-CompliScan AI 2.0** is an intelligent, automated inspection software system that uses Optical Character Recognition (OCR), Canvas image pre-processing, spatial bounding-box label extraction, and a dedicated Legal Metrology Rules Engine to instantly detect offences, non-standard unit representations (e.g., `gms` vs `g`), missing tax clauses, incomplete customer support emails, and generate downloadable statutory **Notice of Violation** PDF reports.
+* **Solution:** **LM-CompliScan AI 2.0** is an intelligent, automated inspection software system that uses Optical Character Recognition (OCR), Canvas image pre-processing, spatial bounding-box label extraction, a dedicated Legal Metrology Rules Engine, and a persistent backend database server to instantly detect offences, flag non-standard unit representations (e.g., `gms` vs `g`), enforce missing tax clauses, record inspection audit logs, manage inspector accounts, and generate downloadable statutory **Notice of Violation** PDF reports.
 
 ---
 
 ## ✨ Key System Features
 
-### 🔍 1. Multi-Input Package Label Scanner
+### 🔐 1. Database & Role Authentication Backend
+- **Express REST API Backend (`server/index.js`):** Built-in REST API server listening on `http://localhost:5000` with CORS support and Vite proxy.
+- **Persistent Database Engine (`server/db.js` & `server/data/metrology_database.json`):** Atomic persistent database store for user credentials, inspection scan logs, and batch matrix records.
+- **Dual User Roles (Official Inspector vs Consumer Advocate):** Dedicated authentication flows for Senior Officers and Public Consumer Advocates, with session tokens stored across sessions and systems.
+
+### 🔍 2. Multi-Input Package Label Scanner
 - **File Upload & Drag-and-Drop:** Inspect high-resolution package photos (PNG, JPG, WEBP).
 - **Live Webcam Packaging Scanner:** Real-time camera feed capture with bounding box alignment frame.
 - **E-Commerce Product Inspector:** Paste product listing URLs or packaging image links from **Amazon India, Flipkart, Blinkit, Zepto, Swiggy Instamart**.
 - **Benchmark Sample Suite:** Built-in compliant and non-compliant package label samples (Snack bags, Beverage bottles, Cosmetics, Electronics) for immediate 1-click evaluation.
 
-### 🧠 2. OCR & Spatial Label Bounding-Box Overlay
+### 🧠 3. OCR & Spatial Label Bounding-Box Overlay
 - **HTML5 Canvas Pre-Processing (`imagePreprocessing.js`):** Adaptive binarization, grayscale conversion, and contrast enhancement to decode low-light or reflective packaging photos.
 - **Client OCR Engine (`ocrProcessor.js`):** High-speed `tesseract.js` client integration with spatial bounding-box positioning mapped directly over the uploaded package photo.
 
-### ⚖️ 3. Legal Metrology Rules 2011 Engine
+### ⚖️ 4. Legal Metrology Rules 2011 Engine
 Evaluates mandatory declarations against statutory standards:
 * **Rule 6(1)(a) — Manufacturer / Packer / Importer:** Verifies complete Name & Address with 6-digit Pincode.
 * **Rule 6(1)(b) — Generic Commodity Name:** Ensures prominent common/generic product name declaration.
@@ -43,15 +49,15 @@ Evaluates mandatory declarations against statutory standards:
 * **Rule 6(1)(g) — Country of Origin:** Verifies mandatory origin country declaration on all packaged commodities.
 * **Rule 6(11) — Unit Sale Price (USP):** Checks unit price rate (e.g. `₹ 0.50 / g` or `₹ 12.00 / N`).
 
-### 🏛️ 4. Offence & Penalty Estimator (Legal Metrology Act, 2009)
-- Automatically evaluates total violation severity and calculates fine ranges under **Section 36(1) & 36(2) of the Legal Metrology Act, 2009** (First offence: fine up to ₹25,000; Second/subsequent offence: up to ₹50,000 or imprisonment).
+### 🏛️ 5. Dynamic Offence & Penalty Estimator (Legal Metrology Act, 2009)
+- Automatically evaluates total violation severity and calculates dynamic fine totals under **Section 36(1) & 36(2) of the Legal Metrology Act, 2009** (First offence: up to ₹25,000 per violation; Second/subsequent offence: up to ₹50,000 per violation or imprisonment).
 
-### 📑 5. Downloadable Official PDF Report Generator
-- Instant 1-click download of formal **Legal Metrology Compliance Inspection Certificates & Violation Notices** formatted with Ministry headers, metadata, score breakdown, table matrix, and digital verification block.
+### 📑 6. Downloadable Official PDF Report Generator
+- Instant 1-click download of formal **Legal Metrology Compliance Inspection Certificates & Violation Notices** formatted with Ministry headers, metadata, score breakdown, table matrix, margin wrapping, clean currency formatting, and digital verification block.
 
-### 📊 6. Bulk Auditor, Inspector Analytics & Rulebook Explorer
-- **Batch Auditor:** Upload multiple package images simultaneously for bulk catalog audits.
-- **Inspector Analytics Dashboard:** Interactive charts showing top non-compliance rule trends and category risk heatmaps.
+### 📊 7. Persistent Batch Audit Matrix & Inspector Analytics
+- **Batch Auditor:** Upload multiple package images simultaneously; all scans are saved automatically into the database matrix table.
+- **Inspector Analytics Dashboard:** Interactive charts showing top non-compliance rule trends, fine compounding estimators, and category risk heatmaps.
 - **Rulebook Explorer:** Searchable Legal Metrology 2011 handbook and minimum font height requirements table (**Rule 7 & 8**).
 
 ---
@@ -67,7 +73,8 @@ graph TD
     E --> F[Offence & Section 36 Penalty Calculator]
     F --> G[Interactive Visual Dashboard & Scorecard]
     F --> H[Official PDF Violation Notice Generator]
-    F --> I[Inspector Analytics & Batch Audit Logger]
+    F --> I[Express REST API Backend & Persistent Database]
+    I --> J[Batch Inspection Matrix & User Auth Database]
 ```
 
 ---
@@ -90,10 +97,12 @@ graph TD
 ## 🛠️ Tech Stack
 
 * **Frontend Framework:** React 18 + Vite 5 (JavaScript)
-* **Styling & UI:** Custom Glassmorphic Dark UI, Modern CSS Tokens, Google Fonts (*Outfit*, *Inter*, *JetBrains Mono*)
+* **Backend API Server:** Node.js + Express 5 (REST API Server)
+* **Database Engine:** Atomic persistent file store (`server/data/metrology_database.json`)
+* **Styling & UI:** Custom Glassmorphic Dark & Light UI, Modern CSS Tokens, Google Fonts (*Outfit*, *Inter*, *JetBrains Mono*)
 * **Icons & Visuals:** `lucide-react`, Canvas Confetti
 * **OCR & Computer Vision:** `tesseract.js`, HTML5 Canvas Image Pre-Processor
-* **PDF Report Engine:** `jspdf`, `html2canvas`
+* **PDF Report Engine:** `jspdf`
 
 ---
 
@@ -109,7 +118,7 @@ npm -v
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/<your-username>/SIH26034_Legal_Metrology_Compliance.git
+git clone https://github.com/Abhishek-1087/SIH26034_Legal_Metrology_Compliance.git
 cd SIH26034_Legal_Metrology_Compliance
 ```
 
@@ -118,28 +127,25 @@ cd SIH26034_Legal_Metrology_Compliance
 npm install
 ```
 
-### Step 3: Start Development Server
+### Step 3: Start Application & Backend Database Server Concurrently
 ```bash
-npm run dev
+npm run dev:all
 ```
 
-Open your browser and navigate to **`http://localhost:3000/`**.
+- **Vite Web App:** `http://localhost:3000/`
+- **Express Backend API:** `http://localhost:5000/`
 
 ---
 
-## 🧪 Build & Production Deployment
+## ⚙️ Available npm Scripts
 
-To generate a production-ready optimized build:
-
-```bash
-npm run build
-```
-
-To preview the production build locally:
-
-```bash
-npm run preview
-```
+| Command | Action |
+| :--- | :--- |
+| `npm run dev:all` | **(Recommended)** Launches both Frontend Web App (port 3000) and Backend Database Server (port 5000) concurrently. |
+| `npm run dev` | Launches frontend Vite dev server only. |
+| `npm run server` | Launches Express backend REST API server only. |
+| `npm run build` | Compiles production-ready bundle into `/dist`. |
+| `npm run preview` | Previews production build locally. |
 
 ---
 
@@ -149,20 +155,29 @@ npm run preview
 SIH26034_Legal_Metrology_Compliance/
 ├── README.md                  # Project documentation & SIH details
 ├── package.json               # Node dependencies & scripts
-├── vite.config.js             # Vite configuration
+├── vite.config.js             # Vite configuration & /api proxy
 ├── index.html                 # HTML5 template & Google Fonts
+├── server/
+│   ├── index.js               # Express REST API server routes (Auth & Scans API)
+│   ├── db.js                  # Persistent database engine & schema handlers
+│   └── data/
+│       └── metrology_database.json # Persistent JSON database file
 └── src/
     ├── main.jsx               # React DOM entry point
     ├── App.jsx                # Main application wrapper & tab routing
     ├── index.css              # Glassmorphic design system & styling tokens
     ├── engine/
+    │   ├── apiService.js              # Client REST API fetch bridge
+    │   ├── authService.js             # Authentication & session service
     │   ├── sampleData.js              # Benchmark packaging samples & rule references
     │   ├── imagePreprocessing.js      # Canvas contrast boost & binarization
     │   ├── ocrProcessor.js            # Tesseract.js OCR & bounding box mapper
     │   ├── metrologyRulesEngine.js    # Legal Metrology 2011 compliance parser
     │   └── reportGenerator.js         # Official PDF report generator (jsPDF)
     └── components/
-        ├── Navbar.jsx                 # Header bar & tab navigation
+        ├── Navbar.jsx                 # Header bar, theme switcher & auth buttons
+        ├── Auth/
+        │   └── AuthModal.jsx          # Login & Signup modal (Official vs Consumer roles)
         ├── Scanner/
         │   ├── ImageUploader.jsx      # Drag & drop image uploader
         │   ├── CameraScanner.jsx      # Live webcam stream modal
@@ -174,9 +189,9 @@ SIH26034_Legal_Metrology_Compliance/
         │   ├── DeclarationGrid.jsx    # Mandatory declarations pass/fail matrix
         │   └── ViolationList.jsx      # Line-by-line offences & Section 36 penalties
         ├── Batch/
-        │   └── BatchAuditor.jsx       # Bulk multi-package inspector table
+        │   └── BatchAuditor.jsx       # Bulk multi-package inspector table (DB persistent)
         ├── Analytics/
-        │   └── AnalyticsDashboard.jsx # Inspector trends & category risk charts
+        │   └── AnalyticsDashboard.jsx # Inspector trends & fine calculator
         └── Rulebook/
             └── RulebookExplorer.jsx   # Searchable Legal Metrology 2011 guide & font rules
 ```
