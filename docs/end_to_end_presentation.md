@@ -108,6 +108,20 @@ flowchart TD
 
 ---
 
+## 👥 Slide 6.5: Dual-Role Authentication System (Inspector vs Consumer)
+
+| Feature / Access Level | 🏛️ Official Inspector Login | 🛒 Consumer / Customer Login |
+| :--- | :---: | :---: |
+| **Role Badge & Affiliation** | `Senior Legal Metrology Officer` • `Dept of Consumer Affairs` | `Verified Consumer Auditor` • `Consumer Grievance Forum` |
+| **Label Scanning & OCR** | ✅ Full Access | ✅ Full Access |
+| **Rules 6(1) Pass/Fail Matrix** | ✅ Full Access | ✅ Full Access |
+| **Section 36 Penalty Engine** | ✅ Section 36(1) & 36(2) Statutory Fine Calculator | ℹ️ Informational Reference |
+| **Generated PDF Document** | ✅ Official Notice of Violation with Signature Block | ✅ Consumer Verification Certificate |
+| **Warehouse Batch Inspector** | ✅ Bulk Image Matrix & CSV Export | ℹ️ Standard Inspection |
+| **Enforcement Analytics** | ✅ Sector Risk Heatmap & Market Seizure Calculator | ℹ️ Consumer Trends |
+
+---
+
 ## 🚀 Slide 7: Live Demo Flow Script (For Judges)
 
 1. **Role Authentication:** Open Auth Modal -> Click `[Inspector]` quick credentials to log in as **Senior Officer Rajesh Kumar**.

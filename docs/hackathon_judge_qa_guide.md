@@ -28,10 +28,18 @@ This document provides a comprehensive Q&A and pitching playbook designed for th
 ### Q4: Is the audit data stored persistently or lost when the page refreshes?
 > **Answer:** All data is persistent. We built a dedicated **Node.js + Express REST API backend** ([`server/index.js`](file:///c:/Users/sak29/OneDrive/Desktop/SIH26034_Legal_Metrology_Compliance/server/index.js)) listening on port 5000 with a persistent database store ([`server/data/metrology_database.json`](file:///c:/Users/sak29/OneDrive/Desktop/SIH26034_Legal_Metrology_Compliance/server/data/metrology_database.json)). Every single package scan and batch audit log is stored in the database matrix table and retrieved asynchronously via `/api/scans`.
 
-### Q5: How do you handle different user roles (Inspectors vs Public Consumers)?
-> **Answer:** Our system features dual-role authentication ([`AuthModal.jsx`](file:///c:/Users/sak29/OneDrive/Desktop/SIH26034_Legal_Metrology_Compliance/src/components/Auth/AuthModal.jsx)):
-> - **Official Inspector Mode:** Unlocks enforcement metrics, fine compounding calculators, statutory notice issuing, and CSV batch exports.
-> - **Public Consumer Mode:** Allows consumers to verify product declarations, check unit price rates, and download verification certificates.
+### Q5: What is the exact difference between Official Inspector and Consumer logins?
+> **Answer:** Our system implements role-based authentication ([`AuthModal.jsx`](file:///c:/Users/sak29/OneDrive/Desktop/SIH26034_Legal_Metrology_Compliance/src/components/Auth/AuthModal.jsx)) tailored for enforcement vs public advocacy:
+> 
+> | Feature / Access Level | 🏛️ Official Inspector Login | 🛒 Consumer / Customer Login |
+> | :--- | :---: | :---: |
+> | **Role Badge & Affiliation** | `Senior Legal Metrology Officer` • `Dept of Consumer Affairs` | `Verified Consumer Auditor` • `Consumer Grievance Forum` |
+> | **Label Scanning & OCR** | ✅ Full Access | ✅ Full Access |
+> | **Rules 6(1) Pass/Fail Matrix** | ✅ Full Access | ✅ Full Access |
+> | **Section 36 Penalty Engine** | ✅ Section 36(1) & 36(2) Statutory Fine Calculator | ℹ️ Informational Reference |
+> | **Generated PDF Document** | ✅ Official Notice of Violation with Signature Block | ✅ Consumer Verification Certificate |
+> | **Warehouse Batch Inspector** | ✅ Bulk Image Matrix & CSV Export | ℹ️ Standard Inspection |
+> | **Enforcement Analytics** | ✅ Sector Risk Heatmap & Market Seizure Calculator | ℹ️ Consumer Trends |
 
 ### Q6: How does the system detect missing MRP tax clauses?
 > **Answer:** Under **Rule 6(1)(e)**, MRP declarations must explicitly state `(incl. of all taxes)` or `inclusive of all taxes`. Our rules engine checks MRP strings against regex `/(?:incl\.?\s*of\s*all\s*taxes|inclusive\s*of\s*all\s*taxes)/i`. If missing (e.g. `MRP Rs 45.00`), it triggers a **Major Violation**.
