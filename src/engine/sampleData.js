@@ -1,4 +1,4 @@
-// Benchmark sample dataset of packaged commodities with realistic product photos
+// Benchmark sample dataset of packaged commodities with complete dynamic violations & warnings data
 
 export const BENCHMARK_SAMPLES = [
   {
@@ -16,7 +16,7 @@ MRP: Rs 45.00
 Packed by: Snacko Foods Pvt Ltd, Industrial Area Phase 2, Pune - 411057
 For complaints contact: Manager at above address, Ph: 1800-123-4567
 Country of Origin: India`,
-    violationsCount: 2,
+    violationsCount: 3,
     warningsCount: 1,
     declarations: {
       manufacturer: { found: true, text: "Snacko Foods Pvt Ltd, Industrial Area Phase 2, Pune - 411057" },
@@ -27,6 +27,42 @@ Country of Origin: India`,
       consumerCare: { found: true, text: "Manager at above address, Ph: 1800-123-4567", emailFound: false, phoneFound: true },
       countryOfOrigin: { found: true, text: "India" },
       unitSalePrice: { found: false, text: null }
+    },
+    violations: [
+      {
+        ruleNo: "Rule 6(1)(c)",
+        field: "Net Quantity Standard Unit",
+        severity: "CRITICAL",
+        message: "Illegal non-standard unit 'gms'. Legal Metrology Rules mandate standard SI symbols: 'g', 'kg', 'ml', 'l' / 'L', 'N' or 'U'.",
+        legalRef: "Rule 6(1)(c) read with Schedule II"
+      },
+      {
+        ruleNo: "Rule 6(1)(e)",
+        field: "MRP Mandatory Tax Clause",
+        severity: "MAJOR",
+        message: "MRP declaration is missing mandatory clause '(incl. of all taxes)' or 'inclusive of all taxes'.",
+        legalRef: "Rule 6(1)(e) Legal Metrology Rules 2011"
+      },
+      {
+        ruleNo: "Rule 6(1)(f)",
+        field: "Consumer Care Email Address",
+        severity: "MAJOR",
+        message: "Consumer Care box is missing a mandatory valid e-mail ID for consumer complaints.",
+        legalRef: "Rule 6(1)(f) amendment 2017"
+      }
+    ],
+    warnings: [
+      {
+        ruleNo: "Rule 6(11)",
+        field: "Unit Sale Price",
+        severity: "MINOR",
+        message: "Unit Sale Price (e.g. ₹ per g / per ml / per unit) not detected on package label."
+      }
+    ],
+    penaltyEstimate: {
+      firstOffence: "Up to ₹ 25,000 per violation (Sec 36(1))",
+      secondOffence: "Up to ₹ 50,000 or imprisonment up to 1 year (Sec 36(2))",
+      legalSection: "Section 36 & Section 37 of Legal Metrology Act, 2009"
     },
     boundingBoxes: [
       { id: 1, field: "Commodity", label: "CRISPY CRUNCH POTATO CHIPS", box: { x: 10, y: 15, width: 80, height: 12 }, compliant: true },
@@ -64,6 +100,13 @@ Country of Origin: India`,
       countryOfOrigin: { found: true, text: "India" },
       unitSalePrice: { found: true, text: "₹ 0.22 / ml" }
     },
+    violations: [],
+    warnings: [],
+    penaltyEstimate: {
+      firstOffence: "Nil (Fully Compliant)",
+      secondOffence: "Nil (Fully Compliant)",
+      legalSection: "Section 36 & Section 37 of Legal Metrology Act, 2009"
+    },
     boundingBoxes: [
       { id: 1, field: "Commodity", label: "PURE HARVEST ALMOND MILK", box: { x: 15, y: 10, width: 70, height: 10 }, compliant: true },
       { id: 2, field: "Net Quantity", label: "Net Quantity: 1 L", box: { x: 15, y: 25, width: 40, height: 8 }, compliant: true },
@@ -100,6 +143,49 @@ Customer Support: 9988776655`,
       countryOfOrigin: { found: false, text: null },
       unitSalePrice: { found: false, text: null }
     },
+    violations: [
+      {
+        ruleNo: "Rule 6(1)(c)",
+        field: "Net Quantity Standard Unit",
+        severity: "CRITICAL",
+        message: "Non-standard unit 'milli-litres'. Rule 6(1)(c) mandates standard SI symbol 'ml' or 'mL'.",
+        legalRef: "Rule 6(1)(c) read with Schedule II"
+      },
+      {
+        ruleNo: "Rule 6(1)(d)",
+        field: "Month & Year of Mfg/Import",
+        severity: "MAJOR",
+        message: "Missing Month and Year of Manufacture / Packing / Import.",
+        legalRef: "Section 36(1) of Legal Metrology Act, 2009"
+      },
+      {
+        ruleNo: "Rule 6(1)(e)",
+        field: "MRP Tax Clause",
+        severity: "MAJOR",
+        message: "Missing mandatory tax clause '(incl. of all taxes)'.",
+        legalRef: "Rule 6(1)(e) Legal Metrology Rules 2011"
+      },
+      {
+        ruleNo: "Rule 6(1)(g)",
+        field: "Country of Origin",
+        severity: "MAJOR",
+        message: "Missing mandatory 'Country of Origin' declaration for imported commodity.",
+        legalRef: "Rule 6(1)(g) Legal Metrology Amendment Rules"
+      }
+    ],
+    warnings: [
+      {
+        ruleNo: "Rule 6(1)(f)",
+        field: "Consumer Care Email Address",
+        severity: "MINOR",
+        message: "Missing email address in consumer care declaration."
+      }
+    ],
+    penaltyEstimate: {
+      firstOffence: "Up to ₹ 25,000 per violation (Sec 36(1))",
+      secondOffence: "Up to ₹ 50,000 or imprisonment up to 1 year (Sec 36(2))",
+      legalSection: "Section 36 & Section 37 of Legal Metrology Act, 2009"
+    },
     boundingBoxes: [
       { id: 1, field: "Commodity", label: "GLOW GODDESS ROSE SERUM", box: { x: 10, y: 15, width: 80, height: 12 }, compliant: true },
       { id: 2, field: "Net Quantity", label: "Volume: 30 milli-litres", box: { x: 15, y: 32, width: 50, height: 8 }, compliant: false, reason: "Non-standard unit 'milli-litres'. Rule 6(1)(c) mandates 'ml' or 'mL'." },
@@ -135,6 +221,13 @@ Country of Origin: Vietnam`,
       consumerCare: { found: true, text: "Quality Head, Toll-Free 1800-444-999, Email: support@sonicwave.in", emailFound: true, phoneFound: true },
       countryOfOrigin: { found: true, text: "Vietnam" },
       unitSalePrice: { found: true, text: "₹ 1,499.00 / N" }
+    },
+    violations: [],
+    warnings: [],
+    penaltyEstimate: {
+      firstOffence: "Nil (Fully Compliant)",
+      secondOffence: "Nil (Fully Compliant)",
+      legalSection: "Section 36 & Section 37 of Legal Metrology Act, 2009"
     },
     boundingBoxes: [
       { id: 1, field: "Commodity", label: "FLEXIFIT WIRELESS EARBUDS", box: { x: 10, y: 12, width: 75, height: 10 }, compliant: true },

@@ -106,15 +106,21 @@ export default function ViolationList({ violations = [], warnings = [], penaltyE
             <div className="space-y-4 text-xs">
               <div>
                 <span className="text-slate-400 block mb-1.5 font-medium">First Offence (Section 36(1)):</span>
-                <p className="font-extrabold text-rose-400 text-sm font-mono bg-slate-950 p-3 rounded-xl border border-rose-500/30 shadow-inner">
-                  {penaltyEstimate?.firstOffence || "Up to ₹ 25,000 per violation"}
+                <p className={`font-extrabold text-sm font-mono p-3 rounded-xl border shadow-inner ${violations.length === 0 ? 'text-emerald-400 bg-emerald-950/30 border-emerald-500/30' : 'text-rose-400 bg-slate-950 border-rose-500/30'}`}>
+                  {violations.length === 0 
+                    ? "₹ 0 (Fully Compliant)" 
+                    : `Up to ₹ ${(violations.length * 25000).toLocaleString('en-IN')} (${violations.length} breach${violations.length > 1 ? 'es' : ''})`
+                  }
                 </p>
               </div>
 
               <div>
                 <span className="text-slate-400 block mb-1.5 font-medium">Second & Subsequent Offence (Sec 36(2)):</span>
-                <p className="font-extrabold text-rose-400 text-sm font-mono bg-slate-950 p-3 rounded-xl border border-rose-500/30 shadow-inner">
-                  {penaltyEstimate?.secondOffence || "Up to ₹ 50,000 or Imprisonment"}
+                <p className={`font-extrabold text-sm font-mono p-3 rounded-xl border shadow-inner ${violations.length === 0 ? 'text-emerald-400 bg-emerald-950/30 border-emerald-500/30' : 'text-rose-400 bg-slate-950 border-rose-500/30'}`}>
+                  {violations.length === 0 
+                    ? "₹ 0 (Fully Compliant)" 
+                    : `Up to ₹ ${(violations.length * 50000).toLocaleString('en-IN')} or Imprisonment`
+                  }
                 </p>
               </div>
 

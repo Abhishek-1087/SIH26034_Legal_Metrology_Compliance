@@ -82,6 +82,8 @@ export default function App() {
         declarations: result.analysis.declarations,
         violationsCount: result.analysis.violations.length,
         warningsCount: result.analysis.warnings.length,
+        violations: result.analysis.violations,
+        warnings: result.analysis.warnings,
         analysis: result.analysis,
         boundingBoxes: result.boundingBoxes,
         penaltyEstimate: result.analysis.penaltyEstimate
@@ -207,8 +209,8 @@ export default function App() {
 
             {/* Offences & Statutory Penalties List */}
             <ViolationList
-              violations={activeProduct?.violationsCount ? (activeProduct?.analysis?.violations || []) : (activeProduct?.analysis?.violations || [])}
-              warnings={activeProduct?.warningsCount ? (activeProduct?.analysis?.warnings || []) : (activeProduct?.analysis?.warnings || [])}
+              violations={activeProduct?.violations || activeProduct?.analysis?.violations || []}
+              warnings={activeProduct?.warnings || activeProduct?.analysis?.warnings || []}
               penaltyEstimate={activeProduct?.penaltyEstimate}
             />
 
