@@ -25,6 +25,612 @@
   ],
   "scans": [
     {
+      "id": "custom-scan-1788634629775",
+      "userId": "user-official-1",
+      "name": "missing_qty_and_date_juice.png",
+      "category": "Scanned Packaged Commodity",
+      "brand": "Custom Label Input",
+      "imageUrl": "blob:http://localhost:3000/6c89bf04-9578-4b07-8137-845628c4beef",
+      "status": "NON_COMPLIANT",
+      "score": 15,
+      "declarations": {
+        "manufacturer": {
+          "found": true,
+          "text": "Freshly Squeezed Co., Pune",
+          "hasPincode": false
+        },
+        "commodity": {
+          "found": true,
+          "text": "Freshly Squeezed Co."
+        },
+        "netQuantity": {
+          "found": true,
+          "text": "1 bottle",
+          "isValidUnit": false,
+          "unitFound": "bottle",
+          "standardUnit": "g / kg / ml / L / N"
+        },
+        "mfgDate": {
+          "found": false,
+          "text": null,
+          "formatValid": false
+        },
+        "mrp": {
+          "found": true,
+          "text": "MRP: Rs 80",
+          "taxClauseFound": false,
+          "currencyFound": true
+        },
+        "consumerCare": {
+          "found": true,
+          "text": " Tel: 1800-999-2222",
+          "emailFound": false,
+          "phoneFound": true
+        },
+        "countryOfOrigin": {
+          "found": false,
+          "text": null
+        },
+        "unitSalePrice": {
+          "found": false,
+          "text": null
+        }
+      },
+      "violationsCount": 5,
+      "warningsCount": 2,
+      "violations": [
+        {
+          "ruleNo": "Rule 6(1)(c)",
+          "field": "Net Quantity Standard Unit",
+          "severity": "CRITICAL",
+          "message": "Illegal non-standard unit 'bottle'. Legal Metrology Rules mandate standard SI symbols: 'g', 'kg', 'ml', 'l' / 'L', 'N' or 'U'.",
+          "legalRef": "Rule 6(1)(c) read with Schedule II"
+        },
+        {
+          "ruleNo": "Rule 6(1)(d)",
+          "field": "Month & Year of Mfg/Packing",
+          "severity": "MAJOR",
+          "message": "Missing Month and Year of Manufacture / Packing / Import.",
+          "legalRef": "Section 36(1) of Legal Metrology Act, 2009"
+        },
+        {
+          "ruleNo": "Rule 6(1)(e)",
+          "field": "MRP Tax Clause",
+          "severity": "MAJOR",
+          "message": "MRP declaration is missing mandatory clause '(incl. of all taxes)' or 'inclusive of all taxes'.",
+          "legalRef": "Rule 6(1)(e) Legal Metrology Rules 2011"
+        },
+        {
+          "ruleNo": "Rule 6(1)(f)",
+          "field": "Consumer Care Email",
+          "severity": "MAJOR",
+          "message": "Consumer Care box is missing a mandatory valid e-mail ID.",
+          "legalRef": "Rule 6(1)(f) amendment 2017"
+        },
+        {
+          "ruleNo": "Rule 6(1)(g)",
+          "field": "Country of Origin",
+          "severity": "MAJOR",
+          "message": "Missing mandatory 'Country of Origin' declaration.",
+          "legalRef": "Rule 6(1)(g) Legal Metrology (Packaged Commodities) Amendment Rules"
+        }
+      ],
+      "warnings": [
+        {
+          "ruleNo": "Rule 6(1)(a)",
+          "field": "Manufacturer Address",
+          "severity": "MINOR",
+          "message": "Address detected but lacks a 6-digit Pincode."
+        },
+        {
+          "ruleNo": "Rule 6(11)",
+          "field": "Unit Sale Price",
+          "severity": "MINOR",
+          "message": "Unit Sale Price (e.g. ₹ per g / per ml / per unit) not detected on package label."
+        }
+      ],
+      "penaltyEstimate": {
+        "firstOffence": "Up to ₹ 25,000 per violation (Sec 36(1))",
+        "secondOffence": "Up to ₹ 50,000 or imprisonment up to 1 year (Sec 36(2))",
+        "legalSection": "Section 36 & Section 37 of Legal Metrology Act, 2009"
+      },
+      "boundingBoxes": [
+        {
+          "id": 1,
+          "field": "Net Quantity",
+          "label": "Freshly Squeezed Co.",
+          "box": {
+            "x": 5,
+            "y": 7,
+            "width": 29,
+            "height": 4
+          },
+          "compliant": true
+        },
+        {
+          "id": 2,
+          "field": "Declaration Line",
+          "label": "Mixed Fruit Juice",
+          "box": {
+            "x": 5,
+            "y": 13,
+            "width": 22,
+            "height": 4
+          },
+          "compliant": true
+        },
+        {
+          "id": 3,
+          "field": "Net Quantity",
+          "label": "Net Qty: 1 bottle",
+          "box": {
+            "x": 5,
+            "y": 19,
+            "width": 21,
+            "height": 4
+          },
+          "compliant": true
+        },
+        {
+          "id": 4,
+          "field": "MRP",
+          "label": "MRP: Rs 80/-",
+          "box": {
+            "x": 5,
+            "y": 24,
+            "width": 18,
+            "height": 4
+          },
+          "compliant": false
+        },
+        {
+          "id": 5,
+          "field": "Net Quantity",
+          "label": "Mfg By: Freshly Squeezed Co., Pune",
+          "box": {
+            "x": 5,
+            "y": 30,
+            "width": 49,
+            "height": 4
+          },
+          "compliant": true
+        },
+        {
+          "id": 6,
+          "field": "Net Quantity",
+          "label": "Mfg Date: 2026",
+          "box": {
+            "x": 5,
+            "y": 36,
+            "width": 20,
+            "height": 4
+          },
+          "compliant": true
+        },
+        {
+          "id": 7,
+          "field": "Customer Care",
+          "label": "Customer Care: 1800-999-2222",
+          "box": {
+            "x": 5,
+            "y": 42,
+            "width": 42,
+            "height": 4
+          },
+          "compliant": true
+        }
+      ],
+      "scannedAt": "2026-09-05T18:57:09.802Z"
+    },
+    {
+      "id": "custom-scan-1788634543086",
+      "userId": "user-official-1",
+      "name": "E-Commerce Package Image",
+      "category": "Scanned Packaged Commodity",
+      "brand": "Custom Label Input",
+      "imageUrl": "https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=800&q=80",
+      "status": "NON_COMPLIANT",
+      "score": 5,
+      "declarations": {
+        "manufacturer": {
+          "found": false,
+          "text": null,
+          "hasPincode": false
+        },
+        "commodity": {
+          "found": true,
+          "text": "- 0 J x ULM : 3 @ > -—"
+        },
+        "netQuantity": {
+          "found": true,
+          "text": "4 N",
+          "isValidUnit": true,
+          "unitFound": "N",
+          "standardUnit": "g / kg / ml / L / N"
+        },
+        "mfgDate": {
+          "found": false,
+          "text": null,
+          "formatValid": false
+        },
+        "mrp": {
+          "found": false,
+          "text": null,
+          "taxClauseFound": false,
+          "currencyFound": false
+        },
+        "consumerCare": {
+          "found": false,
+          "text": null,
+          "emailFound": false,
+          "phoneFound": false
+        },
+        "countryOfOrigin": {
+          "found": false,
+          "text": null
+        },
+        "unitSalePrice": {
+          "found": false,
+          "text": null
+        }
+      },
+      "violationsCount": 5,
+      "warningsCount": 1,
+      "violations": [
+        {
+          "ruleNo": "Rule 6(1)(a)",
+          "field": "Manufacturer / Packer / Importer",
+          "severity": "CRITICAL",
+          "message": "Missing complete name & address of Manufacturer/Packer/Importer.",
+          "legalRef": "Section 36(1) of Legal Metrology Act, 2009"
+        },
+        {
+          "ruleNo": "Rule 6(1)(d)",
+          "field": "Month & Year of Mfg/Packing",
+          "severity": "MAJOR",
+          "message": "Missing Month and Year of Manufacture / Packing / Import.",
+          "legalRef": "Section 36(1) of Legal Metrology Act, 2009"
+        },
+        {
+          "ruleNo": "Rule 6(1)(e)",
+          "field": "MRP Declaration",
+          "severity": "CRITICAL",
+          "message": "Missing Maximum Retail Price (MRP) declaration.",
+          "legalRef": "Section 36(1) of Legal Metrology Act, 2009"
+        },
+        {
+          "ruleNo": "Rule 6(1)(f)",
+          "field": "Consumer Care Contact",
+          "severity": "MAJOR",
+          "message": "Missing complete Consumer Care details for consumer complaints.",
+          "legalRef": "Section 36(1) of Legal Metrology Act, 2009"
+        },
+        {
+          "ruleNo": "Rule 6(1)(g)",
+          "field": "Country of Origin",
+          "severity": "MAJOR",
+          "message": "Missing mandatory 'Country of Origin' declaration.",
+          "legalRef": "Rule 6(1)(g) Legal Metrology (Packaged Commodities) Amendment Rules"
+        }
+      ],
+      "warnings": [
+        {
+          "ruleNo": "Rule 6(11)",
+          "field": "Unit Sale Price",
+          "severity": "MINOR",
+          "message": "Unit Sale Price (e.g. ₹ per g / per ml / per unit) not detected on package label."
+        }
+      ],
+      "penaltyEstimate": {
+        "firstOffence": "Up to ₹ 25,000 per violation (Sec 36(1))",
+        "secondOffence": "Up to ₹ 50,000 or imprisonment up to 1 year (Sec 36(2))",
+        "legalSection": "Section 36 & Section 37 of Legal Metrology Act, 2009"
+      },
+      "boundingBoxes": [
+        {
+          "id": 1,
+          "field": "Net Quantity",
+          "label": "- 0 J x ULM : 3 @ > -—",
+          "box": {
+            "x": 23,
+            "y": 0,
+            "width": 77,
+            "height": 4
+          },
+          "compliant": true
+        },
+        {
+          "id": 2,
+          "field": "Net Quantity",
+          "label": "gr - J 8 : Jr N EL sl ; iN \\| Po - Bo? :",
+          "box": {
+            "x": 4,
+            "y": 0,
+            "width": 90,
+            "height": 9
+          },
+          "compliant": true
+        },
+        {
+          "id": 3,
+          "field": "Net Quantity",
+          "label": "5 1 > \\ g ] 4 / y % \\ bY A a ; Ss",
+          "box": {
+            "x": 1,
+            "y": 3,
+            "width": 95,
+            "height": 11
+          },
+          "compliant": true
+        },
+        {
+          "id": 4,
+          "field": "Net Quantity",
+          "label": "4 NLDY WO Sh” CN; Lh\"",
+          "box": {
+            "x": 0,
+            "y": 16,
+            "width": 95,
+            "height": 15
+          },
+          "compliant": true
+        },
+        {
+          "id": 5,
+          "field": "Declaration Line",
+          "label": "3 aN > FER: ON",
+          "box": {
+            "x": 0,
+            "y": 25,
+            "width": 95,
+            "height": 8
+          },
+          "compliant": true
+        },
+        {
+          "id": 6,
+          "field": "Declaration Line",
+          "label": "a Ep ce EE",
+          "box": {
+            "x": 10,
+            "y": 27,
+            "width": 85,
+            "height": 9
+          },
+          "compliant": true
+        },
+        {
+          "id": 7,
+          "field": "Declaration Line",
+          "label": "| | \\ 3 in) c | er |",
+          "box": {
+            "x": 7,
+            "y": 32,
+            "width": 88,
+            "height": 17
+          },
+          "compliant": true
+        },
+        {
+          "id": 8,
+          "field": "Net Quantity",
+          "label": "SEY & \\ \\ Ree Ee 0 : ug oy",
+          "box": {
+            "x": 0,
+            "y": 35,
+            "width": 93,
+            "height": 10
+          },
+          "compliant": true
+        },
+        {
+          "id": 9,
+          "field": "Declaration Line",
+          "label": "NB i 2\\ \\ wr 7 ra Ry on Facts /",
+          "box": {
+            "x": 6,
+            "y": 41,
+            "width": 87,
+            "height": 7
+          },
+          "compliant": true
+        },
+        {
+          "id": 10,
+          "field": "Declaration Line",
+          "label": "4. \\ 5 < : 8 > 4 Ser] |",
+          "box": {
+            "x": 8,
+            "y": 42,
+            "width": 84,
+            "height": 9
+          },
+          "compliant": true
+        },
+        {
+          "id": 11,
+          "field": "Declaration Line",
+          "label": "« XK ; = \\&& Sa ed a =",
+          "box": {
+            "x": 6,
+            "y": 47,
+            "width": 86,
+            "height": 8
+          },
+          "compliant": true
+        },
+        {
+          "id": 12,
+          "field": "Net Quantity",
+          "label": "% y= reg DENS WA Og",
+          "box": {
+            "x": 7,
+            "y": 52,
+            "width": 75,
+            "height": 8
+          },
+          "compliant": true
+        },
+        {
+          "id": 13,
+          "field": "Declaration Line",
+          "label": "wz © i i 9A | SE 7",
+          "box": {
+            "x": 3,
+            "y": 56,
+            "width": 77,
+            "height": 5
+          },
+          "compliant": true
+        },
+        {
+          "id": 14,
+          "field": "Declaration Line",
+          "label": "or = ENE | nt hee",
+          "box": {
+            "x": 0,
+            "y": 56,
+            "width": 95,
+            "height": 14
+          },
+          "compliant": true
+        },
+        {
+          "id": 15,
+          "field": "Declaration Line",
+          "label": "- N “ 3.",
+          "box": {
+            "x": 1,
+            "y": 62,
+            "width": 58,
+            "height": 5
+          },
+          "compliant": true
+        },
+        {
+          "id": 16,
+          "field": "Net Quantity",
+          "label": "E Lip ~ od Cm",
+          "box": {
+            "x": 15,
+            "y": 65,
+            "width": 85,
+            "height": 5
+          },
+          "compliant": true
+        },
+        {
+          "id": 17,
+          "field": "Net Quantity",
+          "label": "a 3 NG > Ay",
+          "box": {
+            "x": 0,
+            "y": 64,
+            "width": 88,
+            "height": 17
+          },
+          "compliant": true
+        },
+        {
+          "id": 18,
+          "field": "Declaration Line",
+          "label": "pe > = = 5 AS ; \\ 3",
+          "box": {
+            "x": 1,
+            "y": 72,
+            "width": 92,
+            "height": 7
+          },
+          "compliant": true
+        },
+        {
+          "id": 19,
+          "field": "Net Quantity",
+          "label": "i fl 1 » Rw",
+          "box": {
+            "x": 7,
+            "y": 76,
+            "width": 88,
+            "height": 5
+          },
+          "compliant": true
+        },
+        {
+          "id": 20,
+          "field": "Declaration Line",
+          "label": "Ean | ON",
+          "box": {
+            "x": 1,
+            "y": 71,
+            "width": 95,
+            "height": 17
+          },
+          "compliant": true
+        },
+        {
+          "id": 21,
+          "field": "Declaration Line",
+          "label": "hadi ARR +d P 7 \\",
+          "box": {
+            "x": 3,
+            "y": 80,
+            "width": 92,
+            "height": 6
+          },
+          "compliant": true
+        },
+        {
+          "id": 22,
+          "field": "Declaration Line",
+          "label": "Y- Fd JRE \"i «8 ! CC :",
+          "box": {
+            "x": 2,
+            "y": 82,
+            "width": 91,
+            "height": 6
+          },
+          "compliant": true
+        },
+        {
+          "id": 23,
+          "field": "Declaration Line",
+          "label": "if 5 yi i { N / : 4 NC>\" J Xd \\",
+          "box": {
+            "x": 0,
+            "y": 78,
+            "width": 95,
+            "height": 14
+          },
+          "compliant": true
+        },
+        {
+          "id": 24,
+          "field": "Net Quantity",
+          "label": "SSL: HE E - Si : 4 -",
+          "box": {
+            "x": 0,
+            "y": 86,
+            "width": 95,
+            "height": 8
+          },
+          "compliant": true
+        },
+        {
+          "id": 25,
+          "field": "Net Quantity",
+          "label": "ea” ga &° CABREL a ennE",
+          "box": {
+            "x": 7,
+            "y": 90,
+            "width": 92,
+            "height": 10
+          },
+          "compliant": true
+        }
+      ],
+      "scannedAt": "2026-09-05T18:55:43.846Z"
+    },
+    {
       "id": "sample-1",
       "userId": "user-official-1",
       "name": "Crispy Crunch Potato Chips 150g",
